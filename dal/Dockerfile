@@ -3,13 +3,14 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Install dependencies
-COPY requirements.txt .
+COPY api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire app
-COPY . .
+COPY api .
 
 # Make sure the script is executable
+COPY setup_elasticsearch.sh .
 RUN chmod +x setup_elasticsearch.sh
 
 # Install curl for the script

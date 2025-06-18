@@ -5,7 +5,8 @@ import subprocess
 import json
 
 experiments_bp = Blueprint('experiments', __name__)
-es = Elasticsearch("http://localhost:9200")  # Adjust as needed
+es = Elasticsearch(os.environ.get("ELASTICSEARCH_HOST", "http://localhost:9200"))
+
 
 REQUIRED_FIELDS = ['name', 'intent']
 

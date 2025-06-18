@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, Blueprint
 from elasticsearch import Elasticsearch, NotFoundError
 from flask_cors import CORS
+import os
 
 workflows_bp = Blueprint('workflows', __name__)
 
-es = Elasticsearch("http://localhost:9200")  # Update your ES URL
+es = Elasticsearch(os.environ.get("ELASTICSEARCH_HOST", "http://localhost:9200"))
 
 REQUIRED_FIELDS = ['name', 'start', 'end']
 

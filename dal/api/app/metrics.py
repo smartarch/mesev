@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, Blueprint
 from elasticsearch import Elasticsearch
 import logging
+import os
 
 metrics_bp = Blueprint('metrics', __name__)
-es = Elasticsearch("http://localhost:9200")  # Adjust as needed
+es = Elasticsearch(os.environ.get("ELASTICSEARCH_HOST", "http://localhost:9200"))
 
 # Simulate schema validation
 def validate_schema(data, schema):
@@ -149,6 +150,3 @@ def query_metrics():
     except:
         logging.exception("Failed to query metrics")
         return jsonify({"error": "Internal server error"}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
