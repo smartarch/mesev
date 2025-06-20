@@ -124,8 +124,9 @@ def update_experiment():
 @app.route('/experiments/<user>', methods=["GET"])
 @cross_origin()
 def get_experiments(user):
-    experiments = [ msv for msv in (workspaces_path / "f{user}").rglob(f"*.msv") ]
-    filenames = "\n".join(f.name for f in experiments)
+    user_workspace = workspaces_path / user
+    experiments = [ msv for msv in user_workspace.rglob(f"*.msv") ]
+    filenames = "\n".join(str(f.relative_to(user_workspace)) for f in experiments)
     return Response(filenames, mimetype="text/plain")
 
 
