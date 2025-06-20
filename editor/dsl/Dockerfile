@@ -14,11 +14,11 @@ RUN wget  https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb1
 ENV JAVA_HOME=/opt/openjdk-23
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
-# Install Maven 3.9.9
-ENV MAVEN_VERSION=3.9.9
+# Install Maven 3.9.10
+ENV MAVEN_VERSION=3.9.10
 ENV MAVEN_HOME=/opt/maven
 
-RUN wget https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
+RUN wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
     tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
     mv apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} && \
     rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
@@ -29,10 +29,10 @@ WORKDIR /opt
 
 COPY . /opt/
 
-WORKDIR /opt/com.mseve.dsl.parent
+WORKDIR /opt/com.mesev.dsl.parent
 RUN mvn clean install
 
-WORKDIR /opt/com.mseve.dsl.parent/com.mseve.dsl.ide
+WORKDIR /opt/com.mesev.dsl.parent/com.mesev.dsl.ide
 RUN mvn install -Plang-server
 
 RUN mkdir /opt/log
@@ -45,4 +45,6 @@ RUN useradd -m -g root -s /bin/bash user && \
 # default language server port
 EXPOSE 5007
 
-CMD ["bash", "-c", "/opt/launch.sh 2>/opt/logs/lang_server_error.log >/opt/logs/lang_server_access.log"]
+RUN chmod +x /opt/launch.sh
+
+ENTRYPOINT ["/opt/launch.sh"]
