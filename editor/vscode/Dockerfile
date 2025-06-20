@@ -6,7 +6,7 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 WORKDIR /etc/
 COPY . .
 
-WORKDIR /etc/vs-code
+WORKDIR /etc/vscode
 RUN npm install
 RUN npm install -g @vscode/vsce
 RUN npm uninstall msv-language
@@ -23,7 +23,7 @@ RUN useradd -m -g root -s /bin/bash user && \
 
 # another attempt with the scripts to be run by the user
 COPY ./run.sh /home/user/.run.sh
-RUN cp  vs-code/msv-language-0.0.1.vsix /home/user/xxp-language-0.0.1.vsix
+RUN cp  vscode/msv-language-0.0.1.vsix /home/user/msv-language-0.0.1.vsix
 RUN chown user:root /home/user/.run.sh && chmod +x /home/user/.run.sh
 
 
