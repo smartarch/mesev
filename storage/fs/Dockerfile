@@ -13,10 +13,13 @@ RUN pip install --upgrade pip setuptools wheel python-dotenv \
 # Now copy the full app
 COPY . .
 
-RUN mkdir /etc/logs
+RUN mkdir /opt/logs
+
+WORKDIR .
+COPY run.sh .
 RUN chmod a+x run.sh
 
 # Set port and expose
 EXPOSE 5000
 
-ENTRYPOINT [ "run.sh" ]
+ENTRYPOINT [ "./run.sh" ]

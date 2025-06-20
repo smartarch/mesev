@@ -13,7 +13,7 @@ services:
 
   vscode:
     build:
-      context: ./editor/vscode
+      context: ./editor/vscode/
       dockerfile: Dockerfile
     environment:
       - CODE_SERVER_HOST=0.0.0.0
@@ -33,7 +33,7 @@ services:
 
   fs:
     build:
-      context: ./storage/fs
+      context: ./storage/fs/
       dockerfile: Dockerfile
     volumes:
       - ./workspaces/:/workspaces/:wr
@@ -41,10 +41,9 @@ services:
     ports:
       - "8002:5000"    
     depends_on:
-      - lang-server
+      - vscode
     networks:
       - mseve
-
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
@@ -56,11 +55,6 @@ services:
       - "9200:9200"
     volumes:
       - dal_data:/usr/share/elasticsearch/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - mseve
 
