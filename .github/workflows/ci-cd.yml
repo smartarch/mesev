@@ -31,13 +31,3 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run tests
-      run: |
-        # Add your tests here (e.g., pytest or curl to your Flask endpoints)
-        echo "Run your tests or linting here"
