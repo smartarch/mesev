@@ -13,4 +13,4 @@ echo "Running Elasticsearch schema setup..."
 
 # Start Flask app
 echo "Starting Flask..."
-exec flask run --host=0.0.0.0
+exec flask run --host=0.0.0.0 2>/opt/log/dal_error.log >/opt/log/dal_access.log

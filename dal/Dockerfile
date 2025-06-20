@@ -21,6 +21,8 @@ ENV FLASK_APP=run.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_ENV=development
 
+RUN mkdir /opt/log
+
 # Entrypoint script to ensure Elasticsearch is ready before setup
 COPY docker-entrypoint.sh .
 RUN chmod +x docker-entrypoint.sh
