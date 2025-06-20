@@ -38,9 +38,9 @@ RUN mvn install -Plang-server
 RUN mkdir /opt/log
 
 # one trick is to use same user name with the code-server to find the files
-RUN useradd -m -g root -s /bin/bash user && \
-    echo "user:password" | chpasswd && \
-    mkdir -p /home/
+#UN useradd -m -g root -s /bin/bash user && \
+#   echo "user:password" | chpasswd && \
+#   mkdir -p /home/
 
 # default language server port
 EXPOSE 5007

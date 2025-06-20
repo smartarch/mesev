@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./logs:/opt/logs/:wr
-      - ./workspace:/home/user/workspace/:wr
+      - ./workspaces:/workspaces/:wr
     ports:
       - "5007:5007"
     networks:
@@ -22,7 +22,7 @@ services:
       - LANG_SERVER_HOST=lang-server
       - LANG_SERVER_PORT=5007
     volumes:
-      - ./workspace/home/user/workspace/:/home/user/workspace/:wr
+      - ./workspaces/:/workspaces/:wr
       - ./logs:/opt/logs/:wr
     ports:
       - "8080:8080"    
