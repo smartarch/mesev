@@ -37,7 +37,7 @@ def create_experiment():
 
     with open(filepath, 'w') as fileobject:
         if "content" in content: 
-            fileobject.write(content["content"].get_data(as_text=True))
+            fileobject.write(content["content"])
 
     return {"message": f"experiment started with name {content["experiment"]}"}, 201
 
@@ -115,7 +115,7 @@ def update_experiment():
 
     with open(filepath, 'w') as fileobject:
         if "content" in content: 
-            fileobject.write(content["content"].get_data(as_text=True))
+            fileobject.write(content["content"])
 
     return {"message": f"experiment {content["experiment"]} is updated successfully"}, 201
 
