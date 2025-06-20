@@ -1,4 +1,16 @@
 services:
+  lang-server:
+    build:
+      context: ./editor/dsl/
+      dockerfile: Dockerfile
+    volumes:
+      - ./logs:/opt/logs/:wr
+      - ./workspace:/home/user/workspace/:wr
+    ports:
+      - "5007:5007"
+    networks:
+      - mseve
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
     environment:
@@ -14,6 +26,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - mseve
 
   dal:
     build:
@@ -26,6 +40,16 @@ services:
     environment:
       - FLASK_ENV=development
       - ELASTICSEARCH_HOST=http://elasticsearch:9200
+    volumes:
+      - ./logs:/opt/logs/:wr
+      
+    networks:
+      - mseve
 
 volumes:
   dal_data:
+
+networks:
+  mseve:
+    driver: bridge
+    
