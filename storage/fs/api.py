@@ -37,7 +37,7 @@ def create_experiment():
 
     with open(filepath, 'w') as fileobject:
         if "content" in content: 
-            fileobject.write(request["content"].get_data(as_text=True))
+            fileobject.write(content["content"].get_data(as_text=True))
 
     return {"message": f"experiment started with name {content["experiment"]}"}, 201
 
@@ -70,7 +70,7 @@ def rename_experiment():
 
 
     os.rename(old_file, new_file)
-    return {"message": f"experiment {content["old_experiment"]} was renamed to {content["name"]}"}, 200
+    return {"message": f"experiment {content["old_experiment"]} was renamed to {content["new_experiment"]}"}, 200
 
 
 
@@ -115,7 +115,7 @@ def update_experiment():
 
     with open(filepath, 'w') as fileobject:
         if "content" in content: 
-            fileobject.write(request["content"].get_data(as_text=True))
+            fileobject.write(content["content"].get_data(as_text=True))
 
     return {"message": f"experiment {content["experiment"]} is updated successfully"}, 201
 
@@ -130,17 +130,18 @@ def get_experiments(user):
     return Response(filenames, mimetype="text/plain")
 
 
-# @app.route('/experiments/<experiment_name>', methods=["GET"])
-# @cross_origin()
-# def get_experiment(experiment_name):
-#     filepath = workspace_path / "experiments" / f"{experiment_name}.msv"
-#     if not filepath.exists():
-#         return {"message": f"experiment name {experiment_name} does not exist"}, 404
+@app.route('/experiments/<user>/<experiment_full_name>', methods=["GET"])
+@cross_origin()
+def get_experiment(user, experiment_full_name):
+    user_workspace = workspaces_path / user
+    filepath = user_workspace / f"{experiment_full_name}.msv"
+    if not filepath.exists():
+        return {"message": f"experiment name {experiment_full_name} for user {user} does not exist"}, 404
 
-#     with open(filepath, "r") as dsl:
-#         text = dsl.read()
+    with open(filepath, "r") as dsl:
+        text = dsl.read()
 
-#     return Response(text, mimetype="text/plain")
+    return Response(text, mimetype="text/plain")
 
 
 # @app.route('/experiments/dsl2graph/<experiment_name>', methods=["GET"])
