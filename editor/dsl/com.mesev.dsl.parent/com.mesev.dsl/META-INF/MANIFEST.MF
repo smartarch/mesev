@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.mesev.dsl
+Bundle-ManifestVersion: 2
+Bundle-Name: com.mesev.dsl
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.mesev.dsl; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.19.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtend.lib;bundle-version="2.39.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.39.0",
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Export-Package: com.mesev.dsl.xDSL,
+ com.mesev.dsl.serializer,
+ com.mesev.dsl.services,
+ com.mesev.dsl.validation,
+ com.mesev.dsl.generator,
+ com.mesev.dsl,
+ com.mesev.dsl.xDSL.impl,
+ com.mesev.dsl.parser.antlr,
+ com.mesev.dsl.xDSL.util,
+ com.mesev.dsl.parser.antlr.internal,
+ com.mesev.dsl.scoping
+Import-Package: org.apache.log4j
