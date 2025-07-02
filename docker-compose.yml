@@ -72,17 +72,17 @@ services:
     volumes:
       - ./logs:/opt/logs/:wr
     networks:
-      - mseve
+      - yamas
 
   vis-api:
     build:
-      context: .
+      context: ./visualizer/backend/
       dockerfile: Dockerfile
     ports:
       - "8003:8080"
     volumes:
       - .env:/app/.env
-      - ${OUTPUT_DATA_PATH}:/app/output
+      - .output:/app/output
     restart: unless-stopped
 
   vis-front:
