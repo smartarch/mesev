@@ -14,7 +14,7 @@ RUN npm install --force
 COPY . .
 
 # Build the application
-RUN npm start
+RUN npm run build
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
@@ -29,8 +29,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose port 8080
-EXPOSE 8080
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
-
+EXPOSE 80
