@@ -25,7 +25,7 @@ services:
       - ./workspaces/:/workspaces/:wr
       - ./logs:/opt/logs/:wr
     ports:
-      - "8080:8080"    
+      - "8001:8080"    
     depends_on:
       - lang-server
     networks:
@@ -39,7 +39,7 @@ services:
       - ./workspaces/:/workspaces/:wr
       - ./logs:/opt/logs/:wr
     ports:
-      - "8002:5000"    
+      - "8005:5000"    
     depends_on:
       - vscode
     networks:
@@ -63,7 +63,7 @@ services:
       context: ./dal/
       dockerfile: Dockerfile
     ports:
-      - "8001:5000"
+      - "8004:5000"
     depends_on:
       - elasticsearch
     environment:
@@ -79,18 +79,20 @@ services:
       context: ./visualizer/backend/
       dockerfile: Dockerfile
     ports:
-      - "8003:8080"
+      - "8003"
     volumes:
       - .env:/app/.env
       - .output:/app/output
     restart: unless-stopped
+    networks:
+      - yamas
 
   vis-front:
     build:
       context: ./visualizer/frontend/
       dockerfile: Dockerfile
     ports:
-      - "8004:80"
+      - "8002:80"
     depends_on:
       - vis-api
     networks:
@@ -101,25 +103,26 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
-    container_name: mongo
     restart: always
     expose:
       - '27017'
     volumes:
-      - mongo/data:/data/db
+      - mongo_data:/data/db
     networks:
       - yamas
 
   portal:
-    context: ./portal/web-app/
-    dockerfile: Dockerfile
-    expose:
-      - '7001'
+    build:
+      context: ./portal/web-app/
+      dockerfile: Dockerfile
+    ports:
+      - '8000:7001'
     networks:
       - yamas
 
 volumes:
   dal_data:
+  mongo_data:
 
 networks:
   yamas:
