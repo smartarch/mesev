@@ -1,8 +1,8 @@
-import { Axis, Features } from "./initialization.model";
+import type { Axis, Features } from './initialization.model';
 
 export interface IPlotModel {
-    explainabilityType: "featureExplanation" | "hyperparameterExplanation";
-    explanationMethod: "ale" | "pdp" | "2dpdp" | "counterfactuals" | "influenceFunctions";
+    explainabilityType: 'featureExplanation' | 'hyperparameterExplanation';
+    explanationMethod: 'ale' | 'pdp' | '2dpdp' | 'counterfactuals' | 'influenceFunctions';
     explainabilityModel: string;
     plotName: string;
     plotDescr: string;
@@ -30,26 +30,23 @@ export interface IPlotModel {
     index: number;
   }
 
-  export interface IAction {
+export interface IAction {
     [key: string]: ITableContents;
   }
 
-  export interface IAffectedClusters {
+export interface IAffectedClusters {
     [key: string]: IClusterData;
   }
-  
-  export interface IClusterData {
+
+export interface IClusterData {
     clusterName: string;
     data: Record<string, number | string>;
   }
-  
-  export interface IEffCostActions {
+
+export interface IEffCostActions {
     [key: string]: {
       cost: number;
       effectiveness: number;
       actions: Record<string, unknown>;
     };
   }
-
-
-  
