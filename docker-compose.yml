@@ -96,6 +96,28 @@ services:
     networks:
       - yamas
     
+  mongo:
+    image: mongo:4.4.6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    container_name: mongo
+    restart: always
+    expose:
+      - '27017'
+    volumes:
+      - mongo/data:/data/db
+    networks:
+      - yamas
+
+  portal:
+    context: ./portal/web-app/
+    dockerfile: Dockerfile
+    expose:
+      - '7001'
+    networks:
+      - yamas
+
 volumes:
   dal_data:
 
