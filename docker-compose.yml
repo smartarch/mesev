@@ -9,7 +9,7 @@ services:
     ports:
       - "5007:5007"
     networks:
-      - mseve
+      - yamas
 
   vscode:
     build:
@@ -29,7 +29,7 @@ services:
     depends_on:
       - lang-server
     networks:
-      - mseve
+      - yamas
 
   fs:
     build:
@@ -43,7 +43,7 @@ services:
     depends_on:
       - vscode
     networks:
-      - mseve
+      - yamas
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
@@ -56,7 +56,7 @@ services:
     volumes:
       - dal_data:/usr/share/elasticsearch/data
     networks:
-      - mseve
+      - yamas
 
   dal:
     build:
@@ -74,10 +74,32 @@ services:
     networks:
       - mseve
 
+  vis-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8080"
+    volumes:
+      - .env:/app/.env
+      - ${OUTPUT_DATA_PATH}:/app/output
+    restart: unless-stopped
+
+  vis-front:
+    build:
+      context: ./visualizer/frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "8004:80"
+    depends_on:
+      - vis-api
+    networks:
+      - yamas
+    
 volumes:
   dal_data:
 
 networks:
-  mseve:
+  yamas:
     driver: bridge
     
