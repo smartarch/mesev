@@ -1,2 +1,2 @@
-# mesev
-Artifact for Model Based ML Ops Editor
+# YAMAS
+YAMAS: Yet Another Machine Learning Automation System
