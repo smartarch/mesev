@@ -1,0 +1,60 @@
+workflow TitanicWorkflow {
+
+    START -> Task1 -> Task2 -> END;
+
+    task Task1 {
+        implementation "titanic_tasks/task1";
+    }
+
+    task Task2;
+
+    define input data InputFile;
+    configure data InputFile {
+        path "titanic_datasets/titanic.json";
+    }
+
+    define output data OutputFile;
+    configure data OutputFile {
+        path "output/test_local/titanic_once_more.json";
+    }
+
+    InputFile --> Task1.TitanicTask1InputFile;
+    Task1.TitanicTask1OutputFile --> Task2.TitanicTask2InputFile;
+    Task2.TitanicTask2OutputFile --> OutputFile;
+}
+
+workflow TitanicAssembledWorkflow1 from TitanicWorkflow {
+    task Task2 {
+        implementation "titanic_tasks/Task1V1";
+    }
+}
+
+workflow TitanicAssembledWorkflow2 from TitanicWorkflow {
+    task Task2 {
+        implementation "titanic_tasks/Task1V2";
+    }
+}
+
+experiment TitanicExperiment {
+
+    control {
+          START -> S1 -> S2 -> END;                              
+    }
+
+    space S1 of TitanicAssembledWorkflow1 {
+        strategy gridsearch;
+        param demo_param_value = range(4, 5);
+        task Task1 {
+            param demo_param = demo_param_value;
+        }
+    }
+
+    space S2 of TitanicAssembledWorkflow2 {
+        strategy randomsearch;
+        runs = 1;
+        param demo_param_value = enum(6, 8, 9);
+        task Task1 {
+            param demo_param = demo_param_value;
+        }
+    }
+}
