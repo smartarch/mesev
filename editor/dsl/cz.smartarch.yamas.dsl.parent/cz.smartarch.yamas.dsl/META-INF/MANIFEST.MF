@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: cz.smartarch.yamas.dsl
+Bundle-ManifestVersion: 2
+Bundle-Name: cz.smartarch.yamas.dsl
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: cz.smartarch.yamas.dsl; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.19.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtend.lib;bundle-version="2.39.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.39.0",
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Export-Package: cz.smartarch.yamas.dsl.scoping,
+ cz.smartarch.yamas.dsl.generator,
+ cz.smartarch.yamas.dsl.validation,
+ cz.smartarch.yamas.dsl.xDSL.impl,
+ cz.smartarch.yamas.dsl.services,
+ cz.smartarch.yamas.dsl.parser.antlr.internal,
+ cz.smartarch.yamas.dsl,
+ cz.smartarch.yamas.dsl.xDSL.util,
+ cz.smartarch.yamas.dsl.serializer,
+ cz.smartarch.yamas.dsl.xDSL,
+ cz.smartarch.yamas.dsl.parser.antlr
+Import-Package: org.apache.log4j
