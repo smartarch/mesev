@@ -1,0 +1,20 @@
+task TitanicTask1 {
+
+    input data TitanicTask1InputFile;
+    output data TitanicTask1OutputFile;
+
+    param  Task1Param{
+        type Integer;
+        default 10;
+        range (4, 20, 2);
+    }
+
+    metric ParamIncreasedBy5 {
+        kind scalar;
+        type Integer
+    }
+
+    implementation "titanic_tasks/task1/task.py";
+    dependency 	python_version "3.8";
+    
+}

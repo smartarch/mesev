@@ -3,42 +3,42 @@ workflow TitanicWorkflow {
     START -> Task1 -> Task2 -> END;
 
     task Task1 {
-        implementation "titanic_tasks/task1";
+        implementation "titanic_tasks/task1/task.yms";
     }
 
     task Task2;
 
-    define input data InputFile;
+    input data InputFile;
     configure data InputFile {
         path "titanic_datasets/titanic.json";
     }
 
-    define output data OutputFile;
+    output data OutputFile;
     configure data OutputFile {
         path "output/test_local/titanic_once_more.json";
     }
 
     InputFile --> Task1.TitanicTask1InputFile;
     Task1.TitanicTask1OutputFile --> Task2.TitanicTask2InputFile;
-    Task2.TitanicTask2OutputFile --> OutputFile;
+	Task2.TitanicTask2InputFile --> OutputFile;
 }
 
 workflow TitanicAssembledWorkflow1 from TitanicWorkflow {
     task Task2 {
-        implementation "titanic_tasks/Task1V1";
+        implementation "titanic_tasks/task2v1/task.yms";
     }
 }
 
 workflow TitanicAssembledWorkflow2 from TitanicWorkflow {
     task Task2 {
-        implementation "titanic_tasks/Task1V2";
+        implementation "titanic_tasks/task2v2/task.yms";
     }
 }
 
 experiment TitanicExperiment {
 
     control {
-          START -> S1 -> S2 -> END;                              
+          START -> S1 -> S2 -> END;
     }
 
     space S1 of TitanicAssembledWorkflow1 {
