@@ -1,3 +1,5 @@
+# Documentation for Deployed endpoints DAL/YAMAS 
+
 The following collection outlines the available endpoints for storing, editing, and retrieving data.
 
 As a rule of thumb, the endpoints are meant to be used by the experimentation engine and visualization modules in the following way:_
@@ -41,41 +43,122 @@ Endpoints interact with data at three levels: executed experiments, executed wor
     }  
     }
     
+<a name="documentation-for-api-endpoints"></a>
+## Documentation for API Endpoints
 
-### Executed Workflow
+All URIs are relative to *http://api.dal.extremexp-icom.intracom-telecom.com/api*
 
-- **PUT**: creates a new executed workflow. the JSON body expects an executed experiment ID (which is created with the previous endpoint) to add the newly created workflow to the executed experiment. Once this is done, if one GET s the associated executed experiment, the newly created workflow is listed in workflow_ids. The JSON body also can have metrics, datasets, and executed tasks. However; the metric list (if provided) is then created as a separate document associated with the current workflow and when reading the workflow, the metric has an ID. This ID then can be used to interact with the metric separately.  
-    For example, if workflow A has metrics X and Y; when putting them in the list of metrics as \[X, Y\], and then reading workflow A, the response will contain a map of each metric ID to its object {A_ID: A, B_ID: B}.
-    
-- **POST**: Updates an existing executed workflow.
-    
-- **GET**: Reads the executed workflow. If metrics are present, their IDs and corresponding objects are included in the response.
-    
-- **POST (QUERY)**: Queries executed workflows based on the provided JSON body.
-    
+| Class | Method | HTTP request | Description |
+|------------ | ------------- | ------------- | -------------|
+| *ExperimentsApi* | [**addNewExperiments**](Apis/ExperimentsApi.md#addnewexperiments) | **PUT** /experiments/ | add-new-experiments |
+*ExperimentsApi* | [**experimentsMetrics**](Apis/ExperimentsApi.md#experimentsmetrics) | **POST** /experiments-metrics | experiments-metrics |
+*ExperimentsApi* | [**queryExperiments**](Apis/ExperimentsApi.md#queryexperiments) | **POST** /experiments-query | query-experiments |
+*ExperimentsApi* | [**readAllExperiments**](Apis/ExperimentsApi.md#readallexperiments) | **GET** /experiments/ | read-all-experiments |
+*ExperimentsApi* | [**readExperiments**](Apis/ExperimentsApi.md#readexperiments) | **GET** /experiments/{experimentID} | read-experiments |
+*ExperimentsApi* | [**sortWorkflows**](Apis/ExperimentsApi.md#sortworkflows) | **POST** /experiments-sort-workflows/{experimentID} | sort-workflows |
+*ExperimentsApi* | [**updateExperiments**](Apis/ExperimentsApi.md#updateexperiments) | **POST** /experiments/{experimentID} | update-experiments |
+| *MetricsApi* | [**newMetrics**](Apis/MetricsApi.md#newmetrics) | **PUT** /metrics | new-metrics |
+*MetricsApi* | [**putDataRecords**](Apis/MetricsApi.md#putdatarecords) | **PUT** /metrics-data/{metricId} | put-data-records |
+*MetricsApi* | [**queryMetrics**](Apis/MetricsApi.md#querymetrics) | **POST** /metrics-query | query-metrics |
+*MetricsApi* | [**readMetrics**](Apis/MetricsApi.md#readmetrics) | **GET** /metrics/{metricId} | read-metrics |
+*MetricsApi* | [**readMetricsAll**](Apis/MetricsApi.md#readmetricsall) | **GET** /metrics/ | read-metrics-all |
+*MetricsApi* | [**updateMetrics**](Apis/MetricsApi.md#updatemetrics) | **POST** /metrics/{metricId} | update-metrics |
+| *WorkflowsApi* | [**addNewWorkflows**](Apis/WorkflowsApi.md#addnewworkflows) | **PUT** /workflows | add-new-workflows |
+*WorkflowsApi* | [**queryWorkflows**](Apis/WorkflowsApi.md#queryworkflows) | **POST** /workflows-query | query-workflows |
+*WorkflowsApi* | [**readAllWorkflows**](Apis/WorkflowsApi.md#readallworkflows) | **GET** /workflows/ | read-all-workflows |
+*WorkflowsApi* | [**readWorkflows**](Apis/WorkflowsApi.md#readworkflows) | **GET** /workflows/{workflowId} | read-workflows |
+*WorkflowsApi* | [**updateWorkflows**](Apis/WorkflowsApi.md#updateworkflows) | **POST** /workflows/{workflowId} | update-workflows |
 
-### Metric
 
-- **PUT**: Creates a new metric. The JSON body should include an executed workflow ID. Metrics have `parent_type` and `parent_id` attributes to specify their owner. For metrics associated with an executed workflow, set `parent_type` to "executed workflow" and `parent_id` to the workflow's ID. The metric is automatically linked to the executed experiment.
-    
-- **POST**: Updates an existing metric.
-    
-- **GET**: Reads the metric and provides aggregation data such as sum, min, max, count, average, and median. The aggregation is only present if the metric contains a `records` field containing the metric data.
-    
-- **PUT (METRIC DATA)**: Adds records to an existing metric. Requires a metric ID and a JSON body with the records.
-    
+<a name="documentation-for-models"></a>
+## Documentation for Models
 
-| {baseURL}/URL | /:variable | PUT | POST | GET |
-| --- | --- | --- | --- | --- |
-| experiments | \- | [creates a new experiment](#7812075e-891c-4b19-83be-77486663351a) | \- | [reads all experiments](#5cfb6c95-253b-4f10-8ae6-c402abdb7c2b) |
-| experiments | experimentId | \- | [updates the given experiment](#08c9edfd-8726-4be9-9533-9a36a1288060) | [reads the given experiment](#709da60b-f3a8-44a6-861f-681cb2dc6102) |
-| experiments-query | \- | \- | [query experiments](#2e904088-7d5e-48cb-b825-56c02a5d9913) | \- |
-| experiments-metrics | \- | \- | [experiments metrics](#cb271b18-5fa7-46c4-8d84-3a55800478aa) | \- |
-| experiments-sort-workflows | experimentId | \- | [sorts workflows for the given experiment](#b4dd69e7-60cd-41d8-8f5d-eb48e93f831b) | \- |
-| workflows | \- | [creates a new workflow](#39f3c146-215f-498d-9026-714a5d443b5b) | \- | [reads all workflows](#c55a0b64-8348-4229-8d6e-a2e2567a3e5a) |
-| workflows | workflowId | \- | [updates the given workflow](#b77d31b7-8885-4005-a0d7-71984e4c1e3a) | [reads the given workflow](#e58a1a38-1742-45bb-878b-3c0ce472ab5d) |
-| workflows-query | \- | \- | [query workflows](#3de930b7-468e-4602-bf49-732d758ef7e6) | \- |
-| metrics | \- | [creates a new metric](#a5f66bbb-f37d-42aa-8596-5b92c6705836) | \- | [reads all metrics](#3e8f3a50-72e2-4ee5-8bad-0c0a5d2f8644) |
-| metrics | metricId | \- | [updates the given metric](#dec320b9-e4de-4920-8974-0c5d43c72314) | [reads the given metric](#51981823-92e9-41ec-9645-02e22ffc9783) |
-| metrics-query | \- | \- | [query metrics](#e7536efb-121f-4717-9b6a-571dceb230e3) | \- |
-| metrics-data | metricId | [updates the metric records](#d5c03bf9-f979-4ec7-aefe-41ed5b6fc3ea) | \- | \- |
+ - [addNewExperiments_201_response](./Models/addNewExperiments_201_response.md)
+ - [addNewExperiments_201_response_message](./Models/addNewExperiments_201_response_message.md)
+ - [addNewExperiments_request](./Models/addNewExperiments_request.md)
+ - [addNewWorkflows_201_response](./Models/addNewWorkflows_201_response.md)
+ - [addNewWorkflows_request](./Models/addNewWorkflows_request.md)
+ - [experimentsMetrics_200_response](./Models/experimentsMetrics_200_response.md)
+ - [experimentsMetrics_200_response_metrics](./Models/experimentsMetrics_200_response_metrics.md)
+ - [experimentsMetrics_200_response_metrics_K7wRKZUBRKrCr_dswLYy](./Models/experimentsMetrics_200_response_metrics_K7wRKZUBRKrCr_dswLYy.md)
+ - [experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi](./Models/experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi.md)
+ - [experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi_aggregation](./Models/experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi_aggregation.md)
+ - [experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi_records_inner](./Models/experimentsMetrics_200_response_metrics_ix97_JIBtCqP_ZVbHtvi_records_inner.md)
+ - [experimentsMetrics_request](./Models/experimentsMetrics_request.md)
+ - [newMetrics_201_response](./Models/newMetrics_201_response.md)
+ - [newMetrics_request](./Models/newMetrics_request.md)
+ - [putDataRecords_200_response](./Models/putDataRecords_200_response.md)
+ - [putDataRecords_200_response_data_inner](./Models/putDataRecords_200_response_data_inner.md)
+ - [putDataRecords_request](./Models/putDataRecords_request.md)
+ - [queryExperiments_200_response_inner](./Models/queryExperiments_200_response_inner.md)
+ - [queryExperiments_200_response_inner_1x_M9pIBaRhBu24fhq_E](./Models/queryExperiments_200_response_inner_1x_M9pIBaRhBu24fhq_E.md)
+ - [queryExperiments_200_response_inner_1x_M9pIBaRhBu24fhq_E_metadata](./Models/queryExperiments_200_response_inner_1x_M9pIBaRhBu24fhq_E_metadata.md)
+ - [queryExperiments_200_response_inner_2B_O9pIBaRhBu24f8a9B](./Models/queryExperiments_200_response_inner_2B_O9pIBaRhBu24f8a9B.md)
+ - [queryExperiments_200_response_inner_2B_O9pIBaRhBu24f8a9B_metadata](./Models/queryExperiments_200_response_inner_2B_O9pIBaRhBu24f8a9B_metadata.md)
+ - [queryExperiments_request](./Models/queryExperiments_request.md)
+ - [queryExperiments_request_metadata](./Models/queryExperiments_request_metadata.md)
+ - [queryMetrics_200_response_inner](./Models/queryMetrics_200_response_inner.md)
+ - [queryMetrics_request](./Models/queryMetrics_request.md)
+ - [queryWorkflows_200_response_inner](./Models/queryWorkflows_200_response_inner.md)
+ - [queryWorkflows_200_response_inner_input_datasets_inner](./Models/queryWorkflows_200_response_inner_input_datasets_inner.md)
+ - [queryWorkflows_200_response_inner_metadata](./Models/queryWorkflows_200_response_inner_metadata.md)
+ - [queryWorkflows_200_response_inner_metrics_inner](./Models/queryWorkflows_200_response_inner_metrics_inner.md)
+ - [queryWorkflows_200_response_inner_metrics_inner_ux8Sm5IBaRhBu24fca_6](./Models/queryWorkflows_200_response_inner_metrics_inner_ux8Sm5IBaRhBu24fca_6.md)
+ - [queryWorkflows_200_response_inner_metrics_inner_vB8Sm5IBaRhBu24fcq8q](./Models/queryWorkflows_200_response_inner_metrics_inner_vB8Sm5IBaRhBu24fcq8q.md)
+ - [queryWorkflows_200_response_inner_metrics_inner_vR8Sm5IBaRhBu24fvq_w](./Models/queryWorkflows_200_response_inner_metrics_inner_vR8Sm5IBaRhBu24fvq_w.md)
+ - [queryWorkflows_200_response_inner_output_datasets_inner](./Models/queryWorkflows_200_response_inner_output_datasets_inner.md)
+ - [queryWorkflows_200_response_inner_parameters_inner](./Models/queryWorkflows_200_response_inner_parameters_inner.md)
+ - [queryWorkflows_200_response_inner_tasks_inner](./Models/queryWorkflows_200_response_inner_tasks_inner.md)
+ - [queryWorkflows_200_response_inner_tasks_inner_input_datasets_inner](./Models/queryWorkflows_200_response_inner_tasks_inner_input_datasets_inner.md)
+ - [queryWorkflows_200_response_inner_tasks_inner_metadata](./Models/queryWorkflows_200_response_inner_tasks_inner_metadata.md)
+ - [queryWorkflows_200_response_inner_tasks_inner_metrics_inner](./Models/queryWorkflows_200_response_inner_tasks_inner_metrics_inner.md)
+ - [queryWorkflows_200_response_inner_tasks_inner_output_datasets_inner](./Models/queryWorkflows_200_response_inner_tasks_inner_output_datasets_inner.md)
+ - [queryWorkflows_200_response_inner_tasks_inner_parameters_inner](./Models/queryWorkflows_200_response_inner_tasks_inner_parameters_inner.md)
+ - [queryWorkflows_request](./Models/queryWorkflows_request.md)
+ - [readAllExperiments_200_response](./Models/readAllExperiments_200_response.md)
+ - [readAllExperiments_200_response_experiments_inner](./Models/readAllExperiments_200_response_experiments_inner.md)
+ - [readAllExperiments_200_response_experiments_inner_0R8vuZIBaRhBu24fjq85](./Models/readAllExperiments_200_response_experiments_inner_0R8vuZIBaRhBu24fjq85.md)
+ - [readAllExperiments_200_response_experiments_inner_1B_g9pIBaRhBu24fNK_b](./Models/readAllExperiments_200_response_experiments_inner_1B_g9pIBaRhBu24fNK_b.md)
+ - [readAllExperiments_200_response_experiments_inner_uB8Sm5IBaRhBu24fGq_x](./Models/readAllExperiments_200_response_experiments_inner_uB8Sm5IBaRhBu24fGq_x.md)
+ - [readAllExperiments_200_response_experiments_inner_wh8am5IBaRhBu24fJ6_a](./Models/readAllExperiments_200_response_experiments_inner_wh8am5IBaRhBu24fJ6_a.md)
+ - [readAllExperiments_200_response_experiments_inner_zB8uuZIBaRhBu24f1a_n](./Models/readAllExperiments_200_response_experiments_inner_zB8uuZIBaRhBu24f1a_n.md)
+ - [readAllWorkflows_200_response](./Models/readAllWorkflows_200_response.md)
+ - [readAllWorkflows_200_response_workflow](./Models/readAllWorkflows_200_response_workflow.md)
+ - [readAllWorkflows_200_response_workflow_metrics_inner](./Models/readAllWorkflows_200_response_workflow_metrics_inner.md)
+ - [readAllWorkflows_200_response_workflow_metrics_inner_ix_daJIBaRhBu24fBa9y](./Models/readAllWorkflows_200_response_workflow_metrics_inner_ix_daJIBaRhBu24fBa9y.md)
+ - [readAllWorkflows_200_response_workflow_metrics_inner_jB_daJIBaRhBu24fBa96](./Models/readAllWorkflows_200_response_workflow_metrics_inner_jB_daJIBaRhBu24fBa96.md)
+ - [readExperiments_200_response](./Models/readExperiments_200_response.md)
+ - [readExperiments_200_response_experiment](./Models/readExperiments_200_response_experiment.md)
+ - [readExperiments_200_response_experiment_modelJSON](./Models/readExperiments_200_response_experiment_modelJSON.md)
+ - [readExperiments_200_response_experiment_modelJSON_package](./Models/readExperiments_200_response_experiment_modelJSON_package.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataConfigs_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataConfigs_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_initialElement](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_initialElement.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_restQualifiedElements_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_restQualifiedElements_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_restQualifiedElements_inner_node](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_dataLinks_inner_restQualifiedElements_inner_node.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_data_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_data_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_nodeLinks_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_nodeLinks_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_taskConfigs_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_taskConfigs_inner.md)
+ - [readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_taskConfigs_inner_implementations_inner](./Models/readExperiments_200_response_experiment_modelJSON_package_components_inner_workflow_taskConfigs_inner_implementations_inner.md)
+ - [readMetricsAll_200_response](./Models/readMetricsAll_200_response.md)
+ - [readWorkflows_200_response](./Models/readWorkflows_200_response.md)
+ - [readWorkflows_200_response_workflow](./Models/readWorkflows_200_response_workflow.md)
+ - [readWorkflows_200_response_workflow_metrics_inner](./Models/readWorkflows_200_response_workflow_metrics_inner.md)
+ - [readWorkflows_200_response_workflow_metrics_inner_5B_v9pIBaRhBu24fha_T](./Models/readWorkflows_200_response_workflow_metrics_inner_5B_v9pIBaRhBu24fha_T.md)
+ - [readWorkflows_200_response_workflow_metrics_inner_5R_v9pIBaRhBu24fha_4](./Models/readWorkflows_200_response_workflow_metrics_inner_5R_v9pIBaRhBu24fha_4.md)
+ - [sortWorkflows_request](./Models/sortWorkflows_request.md)
+ - [sortWorkflows_request_precedence](./Models/sortWorkflows_request_precedence.md)
+ - [updateExperiments_200_response](./Models/updateExperiments_200_response.md)
+ - [updateExperiments_request](./Models/updateExperiments_request.md)
+ - [updateMetrics_200_response](./Models/updateMetrics_200_response.md)
+ - [updateMetrics_request](./Models/updateMetrics_request.md)
+ - [updateWorkflows_200_response](./Models/updateWorkflows_200_response.md)
+ - [updateWorkflows_request](./Models/updateWorkflows_request.md)
+
+
+<a name="documentation-for-authorization"></a>
+## Documentation for Authorization
+
+All endpoints do not require authorization.
