@@ -1,7 +1,7 @@
 {
-  "name": "msv-language",
-  "displayName": "msv-language",
-  "description": "Mesev language",
+  "name": "yms-language",
+  "displayName": "yms-language",
+  "description": "Yamas language",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
@@ -10,28 +10,28 @@
     "Programming Languages"
   ],
   "activationEvents": [
-    "onLanguage:msv"
+    "onLanguage:yms"
   ],
   "main": "src/out/extension",
   "contributes": {
     "languages": [
       {
-        "id": "msvlang",
+        "id": "ymslang",
         "aliases": [
-          "msv lang",
-          "msvlang"
+          "yms lang",
+          "ymslang"
         ],
         "extensions": [
-          ".msv"
+          ".yms"
         ],
-        "configuration": "./msv.configuration.json"
+        "configuration": "./yms.configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "msvlang",
-        "scopeName": "source.msv",
-        "path": "./syntaxes/msv.tmLanguage.json"
+        "language": "ymslang",
+        "scopeName": "source.yms",
+        "path": "./syntaxes/yms.tmLanguage.json"
       }
     ]
   },
