@@ -18,7 +18,7 @@ RUN chmod +x /etc/.run.sh
 EXPOSE 8080
 
 
-WORKDIR /workspaces/root/workspace
+WORKDIR /workspaces/user/workspace
 RUN code-server --install-extension /etc/vscode/yms-language-0.0.1.vsix
 
 ENTRYPOINT ["/etc/.run.sh"]

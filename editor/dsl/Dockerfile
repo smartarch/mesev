@@ -29,10 +29,10 @@ WORKDIR /opt
 
 COPY . /opt/
 
-WORKDIR /opt/com.mesev.dsl.parent
+WORKDIR /opt/cz.smartarch.yamas.dsl.parent
 RUN mvn clean install
 
-WORKDIR /opt/com.mesev.dsl.parent/com.mesev.dsl.ide
+WORKDIR /opt/cz.smartarch.yamas.dsl.parent/cz.smartarch.yamas.dsl.ide
 RUN mvn install -Plang-server
 
 RUN mkdir /opt/log
